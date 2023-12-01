@@ -8,7 +8,7 @@ export function ProductsNew(props) {
   return (
     <div>
       <h1>New Product</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div>
           Name: <input name="name" type="text" />
         </div>
