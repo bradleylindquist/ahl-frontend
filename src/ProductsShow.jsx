@@ -2,7 +2,8 @@ export function ProductsShow(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const params = new FormData(event.target);
-    props.onUpdateProduct(props.product.id, params, () => event.target.reset());
+    props.onUpdateProduct(props.product.id, params);
+    event.target.reset();
   };
 
   const handleClick = () => {
@@ -16,22 +17,26 @@ export function ProductsShow(props) {
       <p>Description: {props.product.description}</p>
       <p>Price: {props.product.price}</p>
       <p>URL: {props.product.url}</p>
+      <h2>Edit Product</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          Name: <input defaultValue={props.product.name} name="name" type="text" />
+        <div className="form-group">
+          Name: <input defaultValue={props.product.name} className="form-control" name="name" type="text" />
         </div>
-        <div>
-          Description: <input defaultValue={props.product.description} name="description" type="text" />
+        <div className="form-group">
+          Description:{" "}
+          <input defaultValue={props.product.description} className="form-control" name="description" type="text" />
         </div>
-        <div>
-          Price: <input defaultValue={props.product.price} name="price" type="integer" />
+        <div className="form-group">
+          Price: <input defaultValue={props.product.price} className="form-control" name="price" type="integer" />
         </div>
-        <div>
-          URL: <input defaultValue={props.product.url} name="url" type="text" />
+        <div className="form-group">
+          URL: <input defaultValue={props.product.url} className="form-control" name="url" type="text" />
         </div>
         <button type="submit">Update product</button>
       </form>
-      <button onClick={handleClick}>Delete Product</button>
+      <button onClick={handleClick} className="btn btn-danger">
+        Delete Product
+      </button>
     </div>
   );
 }

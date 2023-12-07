@@ -4,6 +4,10 @@ import { ProductsIndex } from "./ProductsIndex";
 import { ProductsNew } from "./ProductsNew";
 import { ProductsShow } from "./ProductsShow";
 import { Modal } from "./Modal";
+import { Signup } from "./Signup";
+import { Login } from "./Login";
+import { Routes, Route } from "react-router-dom";
+import { ProductsShowPage } from "./ProductsShowPage";
 
 export function Content() {
   const [products, setProducts] = useState([]);
@@ -18,22 +22,24 @@ export function Content() {
   };
 
   const handleCreateProduct = (params, successCallback) => {
-    console.log("handleCreateProduct", params);
-    axios.post("http://localhost:3000/products.json", params).then((response) => {
-      setProducts([...products, response.data]);
-      successCallback();
-    });
+    axios
+      .post("/products.json", params)
+      .then((response) => {
+        console.log(response.data);
+        setProducts([...products, response.data]);
+        successCallback();
+        window.location.href = "/products";
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const handleShowProduct = (product) => {
-    console.log("handleShowProduct", product);
-    setIsProductsShowVisible(true);
-    setCurrentProduct(product);
-  };
-
-  const handleUpdateProduct = (id, params, successCallback) => {
-    console.log("handleUpdateProduct", params);
-    axios.patch(`http://localhost:3000/products/${id}.json`, params).then((response) => {
+  const handleUpdateProduct = (id, params) => {
+    axios.patch(`/products/${id}.json`, params).then((response) => {
+      console.log(response.data);
+      setCurrentProduct(response.data);
+      // updates array after updating
       setProducts(
         products.map((product) => {
           if (product.id === response.data.id) {
@@ -43,36 +49,48 @@ export function Content() {
           }
         })
       );
-      successCallback();
+      // closes modal after update
       handleClose();
     });
   };
 
+  const handleShowProduct = (product) => {
+    console.log(product);
+    setIsProductsShowVisible(true);
+    setCurrentProduct(product);
+  };
+
   const handleDestroyProduct = (product) => {
-    console.log("handleDestroyProduct", product);
-    axios.delete(`http://localhost:3000/products/${product.id}.json`).then((response) => {
-      setProducts(products.filter((p) => p.id !== product.id));
+    axios.delete(`/products/${product.id}.json`).then((response) => {
+      console.log(response.data);
+      setProducts(products.filter((r) => r.id !== product.id));
       handleClose();
     });
   };
 
   const handleClose = () => {
-    console.log("handleClose");
     setIsProductsShowVisible(false);
   };
 
+  // handleIndexProducts(); -> Old way of calling function on load
   useEffect(handleIndexProducts, []);
 
   return (
-    <div>
-      <ProductsNew onCreateProduct={handleCreateProduct} />
-      <ProductsIndex products={products} onShowProduct={handleShowProduct} />
+    <div className="container">
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/products/new" element={<ProductsNew onCreateProduct={handleCreateProduct} />} />
+        <Route path="/products" element={<ProductsIndex myProducts={products} onShowProduct={handleShowProduct} />} />
+        <Route path="/" element={<ProductsIndex myProducts={products} onShowProduct={handleShowProduct} />} />
+
+        <Route path="/products/:id" element={<ProductsShowPage />} />
+      </Routes>
+
+      {/* <button onClick={handleIndexProducts}>Load Products</button> */}
+      {/* <ProductsIndex myProducts={products} onShowProduct={handleShowProduct} /> */}
       <Modal show={isProductsShowVisible} onClose={handleClose}>
-        <ProductsShow
-          product={currentProduct}
-          onUpdateProduct={handleUpdateProduct}
-          onDestroyProduct={handleDestroyProduct}
-        />
+        <ProductsShow product={currentProduct} onUpdateProduct={handleUpdateProduct} onDestroyProduct={handleDestroyProduct} />
       </Modal>
     </div>
   );
