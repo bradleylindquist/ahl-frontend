@@ -26,6 +26,7 @@ export function ProductsIndex(props) {
               <div>Artist: {product.supplier.name}</div>
               <img src={product.images[0].url} alt="" />
               <div>Method: {product.description}</div>
+              <div>Price: {product.price}</div>
               <button className="btn btn-secondary" onClick={() => props.onShowProduct(product)}>
                 More info
               </button>
