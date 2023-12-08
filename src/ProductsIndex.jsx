@@ -1,7 +1,7 @@
 import { useState } from "react";
 export function ProductsIndex(props) {
   const [searchTerm, setSearchTerm] = useState("");
-
+  console.log(props); // make sure this is outside the return function below
   return (
     <div id="products-index" className="container text-center">
       <h1>All Pieces</h1>
@@ -23,7 +23,8 @@ export function ProductsIndex(props) {
           .map((product) => (
             <div key={product.id} className="products col-lg-4 col-md-6 col-12 my-3">
               <h4>{product.name}</h4>
-              <img src={product.url} alt="" />
+              <div>Artist: {product.supplier.name}</div>
+              <img src={product.images[0].url} alt="" />
               <div>Method: {product.description}</div>
               <button className="btn btn-secondary" onClick={() => props.onShowProduct(product)}>
                 More info

@@ -34,7 +34,7 @@ export function Content() {
         console.log(error);
       });
   };
-
+ 
   const handleUpdateProduct = (id, params) => {
     axios.patch(`/products/${id}.json`, params).then((response) => {
       console.log(response.data);
