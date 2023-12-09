@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 export function Header() {
   return (
     <header>
-      <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "#800000" }} data-bs-theme="dark">
+      <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "#6495ed" }} data-bs-theme="dark">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
-            AHL Gallery
+            K.M Gallery
           </a>
           <button
             className="navbar-toggler"

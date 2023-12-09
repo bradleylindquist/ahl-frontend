@@ -22,12 +22,12 @@ export function ProductsIndex(props) {
           .filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
           .map((product) => (
             <div key={product.id} className="products col-lg-4 col-md-6 col-12 my-3">
-              <h4>{product.name}</h4>
-              <div>Artist: {product.supplier.name}</div>
+              <h3>{product.name}</h3>
               <img src={product.images[0].url} alt="" />
+              <div>by {product.supplier.name}</div>
               <div>Method: {product.description}</div>
               <div>Price: {product.price}</div>
-              <button className="btn btn-secondary" onClick={() => props.onShowProduct(product)}>
+              <button className="btn btn-primary" onClick={() => props.onShowProduct(product)}>
                 More info
               </button>
             </div>
