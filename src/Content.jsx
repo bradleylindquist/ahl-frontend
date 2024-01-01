@@ -8,6 +8,7 @@ import { Signup } from "./Signup";
 import { Login } from "./Login";
 import { Routes, Route } from "react-router-dom";
 import { ProductsShowPage } from "./ProductsShowPage";
+// import { Cart } from "./Cart";
 
 export function Content() {
   const [products, setProducts] = useState([]);
@@ -34,7 +35,7 @@ export function Content() {
         console.log(error);
       });
   };
- 
+
   const handleUpdateProduct = (id, params) => {
     axios.patch(`/products/${id}.json`, params).then((response) => {
       console.log(response.data);
@@ -90,7 +91,11 @@ export function Content() {
       {/* <button onClick={handleIndexProducts}>Load Products</button> */}
       {/* <ProductsIndex myProducts={products} onShowProduct={handleShowProduct} /> */}
       <Modal show={isProductsShowVisible} onClose={handleClose}>
-        <ProductsShow product={currentProduct} onUpdateProduct={handleUpdateProduct} onDestroyProduct={handleDestroyProduct} />
+        <ProductsShow
+          product={currentProduct}
+          onUpdateProduct={handleUpdateProduct}
+          onDestroyProduct={handleDestroyProduct}
+        />
       </Modal>
     </div>
   );
